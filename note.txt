@@ -1,0 +1,7 @@
+Github repo URL: https://github.com/vamsi920/Gedcom.git
+Hello sir, 
+Iam submitting the following files : 
+    1. python code 
+    2. a sample gedcom file that i used earlier. 
+    3. Output from terminal pasted in text file.
+    3. this note file.
