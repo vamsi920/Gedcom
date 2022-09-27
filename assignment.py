@@ -9,8 +9,8 @@ from prettytable import MSWORD_FRIENDLY
 from prettytable import DOUBLE_BORDER
 x = PrettyTable()
 y = PrettyTable()
-# filep = input("enter gedcom file path: ")
-filep = "gedcom.ged"
+filep = input("enter gedcom file path: ")
+# filep = "gedcom.ged"
 gedcom_parser = Parser()
 gedcom_parser.parse_file(filep)
 root_child_elements = gedcom_parser.get_root_child_elements()
