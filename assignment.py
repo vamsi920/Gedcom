@@ -9,6 +9,8 @@ from prettytable import MSWORD_FRIENDLY
 from prettytable import DOUBLE_BORDER
 from random import randint
 import datetime
+from datetime import date
+
 x = PrettyTable()
 y = PrettyTable()
 filep = input("enter gedcom file path: ")
@@ -24,6 +26,18 @@ def valid_date_of_marriage(start,end):
     else:
         return "Valid"
 def DOB_before_marriage(start,end):
+    if(start>end):
+        return False
+    else:
+        return True
+
+def valid_date_of_birth_current(start,end):
+    if(start.split(" ")[-1]>end.split(" ")[-1]):
+        return "Not valid"
+    else:
+        return "Valid"
+
+def DOB_after_Death(start,end):
     if(start>end):
         return False
     else:
@@ -45,6 +59,7 @@ for element in root_child_elements:
                 spouseid = familyparts[2].strip('\r') if familyparts[2] != " " else ""
             elif("FAMC" in familyparts):
                 Children = familyparts[2].strip('\r') if familyparts[2] != " " else ""
+        birth = element.get_birth_data()[0]
         death = "NA" if element.get_death_data()[0]=="" else element.get_death_data()[0]
         Alive = True if death == "NA" else False
         chi = Children if Children!="" else "NA"
@@ -54,7 +69,7 @@ for element in root_child_elements:
 # print(mapall['@I6000000187342139825@'])
 x.set_style(DOUBLE_BORDER)
 print(x.get_string())
-y.field_names = ["FAM ID","Married","Divorced","Husband ID","Husband Name", "Wife ID",  "Wife Name","Children", "Birth Before Marriage"]
+y.field_names = ["FAM ID","Married","Divorced","Husband ID","Husband Name", "Wife ID",  "Wife Name","Children", "Birth Before Marriage", "Death Before Birth"]
 for element in root_child_elements:
     if isinstance(element, FamilyElement):
         Husbandid = ""      
@@ -66,6 +81,10 @@ for element in root_child_elements:
         if(Divorced != "NA"):
             valid_date_of_marriage(d,Divorced)
         family = str(element.get_individual()).split("\n")
+        td = date.today()
+        tdformat = td.strftime("%m/%d/%y")
+        if (death != "NA"):
+            valid_date_of_birth_current(tdformat,birth)
        
         for i in family:
             familyparts = i.split(" ")
@@ -81,5 +100,9 @@ for element in root_child_elements:
             birth_before_marriage = "Yes"
         else:
             birth_before_marriage = "No"
-        y.add_row([point,d[1]+"/"+ d[2]+"/"+d[0],Divorced,Husbandid,mapall[Husbandid.strip('\r')][0],Wifeid, mapall[Wifeid.strip('\r')][0], Children,birth_before_marriage ])
+        if(DOB_after_Death(death,birth)):
+            death_before_birth = "Yes"
+        else:
+            death_before_birth = "No"
+        y.add_row([point,d[1]+"/"+ d[2]+"/"+d[0],Divorced,Husbandid,mapall[Husbandid.strip('\r')][0],Wifeid, mapall[Wifeid.strip('\r')][0], Children,birth_before_marriage, death_before_birth ])
 print(y)
