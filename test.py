@@ -6,6 +6,8 @@ from assignment import valid_date_of_birth_current
 from assignment import DOB_after_Death
 from assignment import valid_divorce_before_death
 from assignment import ageBelow100
+from assignment import bigamy
+from assignment import parentsTooOld
 
 class unittesting(unittest.TestCase):
     def test_check_date_of_marriage(self):
@@ -22,4 +24,9 @@ class unittesting(unittest.TestCase):
         self.assertEqual(valid_divorce_before_death("03 OCT 2022", "25 MAR 2000"), False)
     def test_ageBelow100(self):
         self.assertEqual(ageBelow100("11 OCT 2001"), True)
+
+    def test_bigamy(self):
+        self.assertEqual(bigamy(['abc', 'abc']), True)
+    def test_parents_too_old(self):
+        self.assertEqual(parentsTooOld("11 OCT 1940","11 OCT 1929" ), True)
    

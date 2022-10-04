@@ -20,6 +20,18 @@ gedcom_parser.parse_file(filep)
 root_child_elements = gedcom_parser.get_root_child_elements()
 x.field_names = ["ID","Name", "Gender", "Birth date", "Alive", "Death", "Child", "Spouse"]
 
+def bigamy(husbands):
+    if(len(husbands) != len(set(husbands))):
+        return True
+    else: 
+        return False
+
+def parentsTooOld(mom,dad): # pass the DoB of mom and dad from below stored data to check and then use. 
+    if(2022 - int(mom.split(" ")[-1])> 80 or 2022 - int(dad.split(" ")[-1])> 80):
+        return True
+    else:
+        return False
+
 def valid_date_of_marriage(start,end):
     if(start.split(" ")[-1]>end.split(" ")[-1]):
         return "Not valid"
@@ -81,9 +93,11 @@ for element in root_child_elements:
 # print(mapall['@I6000000187342139825@'])
 x.set_style(DOUBLE_BORDER)
 print(x.get_string())
+Husbands = []
 y.field_names = ["FAM ID","Married","Divorced","Husband ID","Husband Name", "Wife ID",  "Wife Name","Children", "Birth Before Marriage", "Death Before Birth"]
 for element in root_child_elements:
     if isinstance(element, FamilyElement):
+        
         Husbandid = ""      
         Wifeid = "" 
         Children = []
@@ -97,7 +111,6 @@ for element in root_child_elements:
         tdformat = td.strftime("%m/%d/%y")
         if (death != "NA"):
             valid_date_of_birth_current(tdformat,birth)
-       
         for i in family:
             familyparts = i.split(" ")
             # print(familyparts)
@@ -116,5 +129,7 @@ for element in root_child_elements:
             death_before_birth = "Yes"
         else:
             death_before_birth = "No"
-        y.add_row([point,d[1]+"/"+ d[2]+"/"+d[0],Divorced,Husbandid,mapall[Husbandid.strip('\r')][0],Wifeid, mapall[Wifeid.strip('\r')][0], Children,birth_before_marriage, death_before_birth ])
+        Husbands.append(Husbandid)
+        y.add_row([point,d[1]+"/"+ d[2]+"/"+d[0],Divorced,Husbandid,mapall[Husbandid.strip('\r')][0],Wifeid, mapall[Wifeid.strip('\r')][0], Children,birth_before_marriage, death_before_birth ])   
+# bigamy(Husbands)
 print(y)
