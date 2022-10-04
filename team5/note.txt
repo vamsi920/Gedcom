@@ -1,0 +1,12 @@
+Github repo URL: https://github.com/vamsi920/cs555tm052022Fall
+Hello sir, 
+Iam submitting the following files : 
+    1. a sample gedcom file that i used earlier. 
+    2. Output from terminal (screenshots).
+    3. this note file.
+    4. Project report excel files
+
+Note about running python code: 
+Please install python-gedcom package before running the code file
+
+pip install python-gedcom

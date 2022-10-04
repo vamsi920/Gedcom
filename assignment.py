@@ -26,7 +26,7 @@ def valid_date_of_marriage(start,end):
     else:
         return "Valid"
 def DOB_before_marriage(start,end):
-    if(start>end):
+    if(start.split(" ")[-1]>end.split(" ")[-1]):
         return False
     else:
         return True
@@ -37,8 +37,20 @@ def valid_date_of_birth_current(start,end):
     else:
         return "Valid"
 
+def valid_divorce_before_death(start,end):
+    if(start.split(" ")[-1]>end.split(" ")[-1] or start=="NA"):
+        return False
+    else:
+        return True
+
+def ageBelow100(age):
+    if(2022 - int(age.split(" ")[-1])>100):
+        return False
+    else:
+        return True
+
 def DOB_after_Death(start,end):
-    if(start>end):
+    if(start.split(" ")[-1]>end.split(" ")[-1]):
         return False
     else:
         return True
