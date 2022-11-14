@@ -67,6 +67,47 @@ def DOB_after_Death(start,end):
     else:
         return True
 
+def Store_DOB(dob,x):
+    dobs = x.get_string(fields =["Birth date"])
+    if dob not in dobs:
+        x.add_row([" ", " ", " ", dob," ", " "," ", " "])
+    else: 
+        return "dob exists"
+
+def Store_name(name,x):
+    names = x.get_string(fields =["Name"])
+    if name not in names:
+        x.add_row([" ", name, " ", " "," ", " "," ", " "])
+    else: 
+        return "name exists"
+
+def check_marital(name, x):
+    names = x.get_string(fields =["Name"])
+    spouses = x.get_string(fields =["Spouse"])
+    if name in names:
+        id = names.index(name)
+        if(spouses[id] !="NA"):
+            return "married"
+        else:
+            return "not married"
+
+def check_living_status(name, x):
+    names = x.get_string(fields =["Name"])
+    alive = x.get_string(fields =["Alive"])
+    if name in names:
+        id = names.index(name)
+        if(alive[id] =="True"):
+            return "alive"
+        else:
+            return "dead"
+
+def Add_to_table_if_alive_and_not_married(name, x):
+    if(check_marital(name,x) == "not married" and check_living_status(name,x) == "alive"):
+        Store_name(name,x)
+        return "added"
+    else:
+        return "not added"
+
 mapall = {}
 for element in root_child_elements:
     
